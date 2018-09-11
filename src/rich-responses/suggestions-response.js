@@ -46,7 +46,7 @@ class Suggestion extends RichResponse {
     super();
     this.platform = undefined;
     this.replies = [];
-    this.title = title;
+      this.title = "Choose an item:"
     if (
       suggestion === undefined ||
       (typeof suggestion === 'object' && !suggestion.title)
