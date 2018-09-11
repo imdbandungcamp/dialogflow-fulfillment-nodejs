@@ -46,6 +46,7 @@ class Suggestion extends RichResponse {
     super();
     this.platform = undefined;
     this.replies = [];
+    this.title = title;
     if (
       suggestion === undefined ||
       (typeof suggestion === 'object' && !suggestion.title)
@@ -58,6 +59,7 @@ class Suggestion extends RichResponse {
       this.replies.push(suggestion);
     } else if (typeof suggestion === 'object') {
       this.replies.push(suggestion.title);
+      this.title = suggestion.title;
       if (
         typeof suggestion.platform !== 'undefined' &&
         suggestion.platform !== PLATFORMS.UNSPECIFIED
@@ -185,7 +187,7 @@ class Suggestion extends RichResponse {
         response.suggestions.suggestions.push({title: reply});
       });
     } else {
-      response = {quickReplies: {quickReplies: this.replies}};
+      response = {quickReplies: {title: this.title, quickReplies: this.replies}};
       // Response is the same for generic responses without the platform attribute
       // If the platform is not undefined or the platform is not unspecified
       if (SUPPORTED_RICH_MESSAGE_PLATFORMS.indexOf(platform) > -1) {
