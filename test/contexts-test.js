@@ -180,6 +180,14 @@ test('Test _removeOutgoingContext method', async (t) => {
   t.deepEqual(context.contexts, {'context name': contextObject1, 'yet another context name': contextObject3});
 });
 
+test('Test context name with environment', async (t) => {
+  // Get contexts set with constructor
+  let context = new Context(v2EnvironementIncomingContexts, v2EnvironmentSession);
+  t.deepEqual(context.get('context name'), contextObject1);
+  t.deepEqual(context.get('another context name'), contextObject2);
+  t.deepEqual(context.get('yet another context name'), contextObject3);
+});
+
 
 // ---------------------------------------------------------------------------
 //              Context test helper objects
@@ -233,6 +241,7 @@ const v1IncomingContexts = [
 ];
 
 const v2Session = 'projects/project-id/agent/sessions/88d1...a0';
+const v2EnvironmentSession = 'projects/project-id/agent/environments/dev/users/-/sessions/88d1...a0';
 
 const v2IncomingContexts = [
   {
@@ -249,6 +258,30 @@ const v2IncomingContexts = [
   },
   {
     name: 'projects/project-id/agent/sessions/88d1...a0/contexts/yet another context name',
+    parameters: {
+      parameter: 'value',
+      anotherParam: 'another value',
+      yetAnotherParam: 'yet another value',
+    },
+    lifespanCount: 4,
+  },
+];
+
+const v2EnvironementIncomingContexts = [
+  {
+    name: 'projects/project-id/agent/environments/dev/users/-/sessions/88d1...a0/contexts/context name',
+    parameters: {},
+    lifespanCount: 0,
+  },
+  {
+    name: 'projects/project-id/agent/environments/dev/users/-/sessions/88d1...a0/contexts/another context name',
+    parameters: {
+      parameter: 'value',
+    },
+    lifespanCount: 99,
+  },
+  {
+    name: 'projects/project-id/agent/environments/dev/users/-/sessions/88d1...a0/contexts/yet another context name',
     parameters: {
       parameter: 'value',
       anotherParam: 'another value',

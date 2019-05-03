@@ -199,7 +199,10 @@ class Context {
     let contexts = {};
     for (let index = 0; index<v2InputContexts.length; index++) {
       let context = v2InputContexts[index];
-      const name = context['name'].split('/')[6];
+      const contextPath = context['name'].split('/');
+      const name = contextPath[contextPath.findIndex((ctx) => {
+        return ctx === 'contexts';
+      }) + 1];
       contexts[name] = {
         name: name,
         lifespan: context['lifespanCount'],
